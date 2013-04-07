@@ -1,4 +1,4 @@
-// jQuery List DragSort-Plus v0.6.0
+// jQuery List DragSort-Plus v0.6.1
 // https://github.com/DigTheDoug/dragsort
 
 // Based off jQuery List DragSort
@@ -281,8 +281,10 @@
 
                     //Moving (ie dropped between items)
                     } else {
-                        ei = null;
-	                    for (var i = 0; ei == null && opts.dragBetween && i < lists.length; i++) {
+                        //If it's not over an item, check to see if it's between two
+                    	var ei = list.findPosAfter(e.pageX, e.pageY);
+                    	nlist = list;
+                    	for (var i = 0; ei == null && opts.dragBetween && i < lists.length; i++) {
 	                        ei = lists[i].findPosAfter(e.pageX, e.pageY);
 	                        nlist = lists[i];
 	                    }
@@ -337,19 +339,24 @@
                     helpers.forEach(function(e){e.hide()});
                     helpers = [];
 
-                    //Over another item?
+                    //TODO: Store the value so we can get it on drop rather than recalculating it
+
+                    //Check to see if it's over another item?
                     var ei = list.findPos(e.pageX, e.pageY);
 					var nlist = list;
 					for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
 						ei = lists[i].findPos(e.pageX, e.pageY);
 						nlist = lists[i];
 					}
+					//If it is, show the drop icon
                     if(ei > -1){
                         helpers.push($(nlist.pos[ei].elm).find('.dropIcon').show());
                         return false;
                     }
 
-                    ei = null;
+                    //If it's not over an item, check to see if it's between two
+                    var ei = list.findPosAfter(e.pageX, e.pageY);
+                    nlist = list;
                     for (var i = 0; ei == null && opts.dragBetween && i < lists.length; i++) {
                         ei = lists[i].findPosAfter(e.pageX, e.pageY);
                         nlist = lists[i];

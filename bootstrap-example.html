@@ -3,19 +3,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/bootstrap.min.js"></script>
 	<script type="text/javascript" src="jquery.dragsort-plus-0.6.0.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.css">
+	
 	<style type="text/css">
-		body { font-family:Arial; font-size:12pt; padding:20px; width:820px; margin:20px auto;}
-		h1 { font-size:16pt; }
-		h2 { font-size:13pt; }
-		ul { margin:0px; padding:0px; margin-left:20px; }
-		#list1, #list2 { position: relative; width:330px; list-style-type:none; margin:0px; border: 1px red solid;}
-		#list1 li, #list2 li { position: relative; float:left; padding:5px; width:100px; height:100px; }
-		#list1 .item, #list2 .item { width:90px; height:50px; border:solid 1px black; background-color:#E0E0E0; text-align:center; padding-top:40px; }
-		#list1 { float:left;}
-		#list2 { float:right; }
-		.placeHolder div { width:90px; height:50px;text-align:center; padding-top:40px;background-color:white; border:dashed 1px gray; }
+		.thumbnails{
+			border: 1px solid #eee;
+			border-radius: 4px;
+			position: relative;
+			padding-top: 20px;
+		}
+
+		.thumbnails > li{
+			position: relative;
+		}
+
+		.thumbnail {
+			height: 50px;
+			text-align: center;
+		}
+		.placeHolder div { 
+			height: 50px;
+			text-align: center; 
+			border: dashed 1px gray; 
+		}
 		
 		.moveRightIcon,
     	.moveLeftIcon,
@@ -35,6 +48,11 @@
         	top: 40%;
         }
 
+        .dropIcon {
+        	width: 100%;
+        	text-align: center;
+        }
+
         .moveRightIcon{
 	      right: 0px;
 	    }
@@ -43,19 +61,23 @@
 	      left: 0px;
 	    }
 	</style>
+
 </head>
 <body>
-	<div>
-		<h1>jQuery List DragSort-Plus</h1>
-	
-		<a href="https://github.com/DigTheDoug/dragsort">Git source</a><br/>
-		<br/>
-	
-		<h2>Multiple 2D grid lists</h2>
-		<em>You can drag and drop between the two lists</em>
+	<div class="container">
+		<div class="row">
 
-		<div>
-			<ul id="list2">
+			<h1>jQuery List DragSort-Plus</h1>
+			<h6>version 0.6.1</h6>
+			
+			<a href="https://github.com/DigTheDoug/dragsort">Git Source</a><br/>
+		</div>
+		<div class="row">
+			<h3>Multiple 2D grid list using fixed grid 'thumbnails'</h3>
+			<em>You can drag and drop between the two lists</em>
+		</div>
+		<div class="row">
+			<ul id="list1" class="thumbnails span7">
 				<li class="span2"><div class="item thumbnail">1</div>
 					<div class="dropIcon"><div>Drop Here</div></div>
 					<div class="moveRightIcon" ><div>&raquo</div></div>
@@ -102,8 +124,8 @@
 		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
 				</li>
 			</ul>
-
-			<ul id="list1">
+			
+			<ul id="list2" class="thumbnails span7">
 				<li class="span2"><div class="item thumbnail">1</div>
 					<div class="dropIcon"><div>Drop Here</div></div>
 					<div class="moveRightIcon" ><div>&raquo</div></div>
@@ -151,6 +173,65 @@
 				</li>
 			</ul>
 		</div>
+
+		<div class="row">
+			<h3>Single 2D grid list using differnet sized span 'thumbnails'</h3>
+		</div>
+		<div class="row">
+			<ul id="list3" class="thumbnails span12">
+				<li class="span2"><div class="item thumbnail">1</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span3"><div class="item thumbnail">2</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span1"><div class="item thumbnail">3</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span1"><div class="item thumbnail">4</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span4"><div class="item thumbnail">5</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span2"><div class="item thumbnail">6</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span5"><div class="item thumbnail">7</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span3"><div class="item thumbnail">8</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+				<li class="span1"><div class="item thumbnail">9</div>
+					<div class="dropIcon"><div>Drop Here</div></div>
+					<div class="moveRightIcon" ><div>&raquo</div></div>
+		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="row">
+			jQuery List DragSort-Plus<br/>
+			<em>version 0.6.1</em><br/>
+			<a href="https://github.com/DigTheDoug/dragsort">Git Source</a><br/>
+		</div>
 	</div>
 
 	<script type="text/javascript">
@@ -160,7 +241,16 @@
 		 	dragStart: dragStartHandler,
             dragEnd: dragEndHanlder,
             context: this,
-		 	placeHolderTemplate: "<li class='placeHolder'><div></div></li>" 
+		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>" 
+		 });
+
+		$("#list3").dragsort({
+		 	dragSelector: "div", 
+		 	dragBetween: false, 
+		 	dragStart: dragStartHandler,
+            dragEnd: dragEndHanlder,
+            context: this,
+		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>" 
 		 });
 		
 		function dragStartHandler(){
