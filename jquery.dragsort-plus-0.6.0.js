@@ -1,3 +1,7 @@
+// jQuery List DragSort-Plus v0.6.0
+// https://github.com/DigTheDoug/dragsort
+
+// Based off jQuery List DragSort
 // jQuery List DragSort v0.5.1
 // Website: http://dragsort.codeplex.com/
 // License: http://dragsort.codeplex.com/license
@@ -13,6 +17,8 @@
 		var opts = $.extend({}, $.fn.dragsort.defaults, options);
 		var lists = [];
 		var list = null, lastPos = null;
+
+        var helpers = [];
 
 		this.each(function(i, cont) {
 
@@ -159,10 +165,13 @@
 						}
 					}, 10);
 
+                    var context = (opts.context == null) ? list.draggedItem : opts.context;
+                    opts.dragStart.apply(context);
+
 					//misc
-					$(lists).each(function(i, l) { l.createDropTargets(); l.buildPositionTable(); });
+					$(lists).each(function(i, l) { l.buildPositionTable(); });
 					list.setPos(e.pageX, e.pageY);
-					$(document).bind("mousemove", list.swapItems);
+					$(document).bind("mousemove", list.mouseMove);
 					$(document).bind("mouseup", list.dropItem);
 					if (opts.scrollContainer != window)
 						$(window).bind("DOMMouseScroll mousewheel", list.wheel);
@@ -236,116 +245,181 @@
 					this.pos = pos;
 				},
 
-				dropItem: function() {
-					if (list.draggedItem == null)
-						return;
+                dropItem:function(e){
+                    if (list.draggedItem == null)
+                        return;
 
-					//list.draggedItem.attr("style", "") doesn't work on IE8 and jQuery 1.5 or lower
-					//list.draggedItem.removeAttr("style") doesn't work on chrome and jQuery 1.6 (works jQuery 1.5 or lower)
-					var orig = list.draggedItem.attr("data-origstyle");
-					list.draggedItem.attr("style", orig);
-					if (orig == "")
-						list.draggedItem.removeAttr("style");
-					list.draggedItem.removeAttr("data-origstyle");
+                    //cleanup styles and remove placeholders
+                    var orig = list.draggedItem.attr("data-origstyle");
+                    list.draggedItem.attr("style", orig);
+                    if (orig == "")
+                        list.draggedItem.removeAttr("style");
+                    list.draggedItem.removeAttr("data-origstyle");
 
-					list.styleDragHandlers(true);
+                    list.styleDragHandlers(true);
+                    list.placeHolderItem.remove();
+                    $("[data-droptarget], .dragSortItem").remove();
 
-					list.placeHolderItem.before(list.draggedItem);
-					list.placeHolderItem.remove();
+                    window.clearInterval(list.scroll.scrollY);
+                    window.clearInterval(list.scroll.scrollX);
 
-					$("[data-droptarget], .dragSortItem").remove();
 
-					window.clearInterval(list.scroll.scrollY);
-					window.clearInterval(list.scroll.scrollX);
+                    //Do the droppin action
 
-					//if position changed call dragEnd
-					if (list.draggedItem.attr("data-origpos") != $(lists).index(list) + "-" + list.getItems().index(list.draggedItem))
-						opts.dragEnd(list.draggedItem);
-					list.draggedItem.removeAttr("data-origpos");
-
-					list.draggedItem = null;
-					$(document).unbind("mousemove", list.swapItems);
-					$(document).unbind("mouseup", list.dropItem);
-					if (opts.scrollContainer != window)
-						$(window).unbind("DOMMouseScroll mousewheel", list.wheel);
-					return false;
-				},
-
-				//swap the draggedItem (represented visually by placeholder) with the list item the it has been dragged on top of
-				swapItems: function(e) {
-					if (list.draggedItem == null)
-						return false;
-
-					//move draggedItem to mouse location
-					list.setPos(e.pageX, e.pageY);
-
-					//retrieve list and item position mouse cursor is over
-					var ei = list.findPos(e.pageX, e.pageY);
+                    //Check if dropped on another item
+                    //Over another item?
+                    var ei = list.findPos(e.pageX, e.pageY);
 					var nlist = list;
 					for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
 						ei = lists[i].findPos(e.pageX, e.pageY);
 						nlist = lists[i];
 					}
+                    if(ei > -1){
+                        console.log('drop on ' + ei)
+                        var context = (opts.context == null) ? list.draggedItem : opts.context;
+                        opts.dragEnd.apply(context, new Array(list.draggedItem, list.pos[ei].elm));
 
-					//if not over another moveable list item return
-					if (ei == -1)
-						return false;
+                    //Moving (ie dropped between items)
+                    } else {
+                        ei = null;
+	                    for (var i = 0; ei == null && opts.dragBetween && i < lists.length; i++) {
+	                        ei = lists[i].findPosAfter(e.pageX, e.pageY);
+	                        nlist = lists[i];
+	                    }
 
-					//save fixed items locations
-					var children = function() { return $(nlist.container).children().not(nlist.draggedItem); };
-					var fixed = children().not(opts.itemSelector).each(function(i) { this.idx = children().index(this); });
+                        console.log('drop after ' + ei)
 
-					//if moving draggedItem up or left place placeHolder before list item the dragged item is hovering over otherwise place it after
-					if (lastPos == null || lastPos.top > list.draggedItem.offset().top || lastPos.left > list.draggedItem.offset().left)
-						$(nlist.pos[ei].elm).before(list.placeHolderItem);
-					else
-						$(nlist.pos[ei].elm).after(list.placeHolderItem);
+                        //If dropped in a valid location, move it there!
+                        if(ei != null){
 
-					//restore fixed items location
-					fixed.each(function() {
-						var elm = children().eq(this.idx).get(0);
-						if (this != elm && children().index(this) < this.idx)
-							$(this).insertAfter(elm);
-						else if (this != elm)
-							$(this).insertBefore(elm);
-					});
+                            var children = function() { return $(nlist.container).children().not(nlist.draggedItem); };
+                            var fixed = children().not(opts.itemSelector).each(function(i) { this.idx = children().index(this); });
 
-					//misc
-					$(lists).each(function(i, l) { l.createDropTargets(); l.buildPositionTable(); });
-					lastPos = list.draggedItem.offset();
-					return false;
-				},
+                            if (ei > -1){
+                                $(nlist.pos[ei].elm).after(list.draggedItem);
+                            } else {
+                                $(nlist.pos[0].elm).before(list.draggedItem);
+                            }
+
+                       	//If position changed call dragEnd
+                            if (list.draggedItem.attr("data-origpos") != $(lists).index(list) + "-" + list.getItems().index(list.draggedItem)){
+                                var context = (opts.context == null) ? list.draggedItem : opts.context;
+                                opts.dragEnd.apply(context, new Array(list.draggedItem));
+                            }
+                        }
+                    }
+
+                    newList.cleanupDrop();
+                    return false
+                },
+
+                cleanupDrop:function(){
+                    //remove handlers and null vars
+                    helpers.forEach(function(e){e.hide()});
+                    helpers = [];
+                    list.draggedItem = null;
+                    $(document).unbind("mousemove", list.mouseMove);
+                    $(document).unbind("mouseup", list.dropItem);
+                    if (opts.scrollContainer != window)
+                        $(window).unbind("DOMMouseScroll mousewheel", list.wheel);
+                },
+
+                mouseMove:function(e){
+                    if (list.draggedItem == null)
+                        return false;
+
+                    //move draggedItem to mouse location
+                    list.setPos(e.pageX, e.pageY);
+
+                    //Get the mouse info so we can display the helpers and set drop placement
+
+                    //hide all the helpers
+                    helpers.forEach(function(e){e.hide()});
+                    helpers = [];
+
+                    //Over another item?
+                    var ei = list.findPos(e.pageX, e.pageY);
+					var nlist = list;
+					for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
+						ei = lists[i].findPos(e.pageX, e.pageY);
+						nlist = lists[i];
+					}
+                    if(ei > -1){
+                        helpers.push($(nlist.pos[ei].elm).find('.dropIcon').show());
+                        return false;
+                    }
+
+                    ei = null;
+                    for (var i = 0; ei == null && opts.dragBetween && i < lists.length; i++) {
+                        ei = lists[i].findPosAfter(e.pageX, e.pageY);
+                        nlist = lists[i];
+                    }
+
+                    if(ei != null){
+                        if(ei == -1){
+                            helpers.push($(nlist.pos[ei+1].elm).find('.moveLeftIcon').show());
+                        } else if (ei == nlist.pos.length-1){
+                            helpers.push($(nlist.pos[ei].elm).find('.moveRightIcon').show());
+                        } else {
+                            helpers.push($(nlist.pos[ei].elm).find('.moveRightIcon').show());
+                            helpers.push($(nlist.pos[ei+1].elm).find('.moveLeftIcon').show());
+                        }
+                    }
+
+                    return false;
+                },
 
 				//returns the index of the list item the mouse is over
 				findPos: function(x, y) {
 					for (var i = 0; i < this.pos.length; i++) {
-						if (this.pos[i].left < x && this.pos[i].right > x && this.pos[i].top < y && this.pos[i].bottom > y)
+                        var tol = 30; //tolerance
+						if (this.pos[i].left+tol < x && this.pos[i].right-tol > x && this.pos[i].top < y && this.pos[i].bottom > y)
 							return i;
 					}
 					return -1;
 				},
 
-				//create drop targets which are placeholders at the end of other lists to allow dragging straight to the last position
-				createDropTargets: function() {
-					if (!opts.dragBetween)
-						return;
+				//returns the index of the item to the right (after) when between items
+                findPosAfter: function(x, y) {
+                    for (var i = 0; i < this.pos.length; i++) {
+                        var tol = 30; //tolerance
+                        var rightHeight = this.pos[i].top < y && this.pos[i].bottom > y;
+                        
+                        //check if within parent container
+                        if(x + tol < this.container.offsetLeft || x - tol > this.container.offsetLeft + this.container.offsetWidth){
+                        	return null;
+                        }
 
-					$(lists).each(function() {
-						var ph = $(this.container).find("[data-placeholder]");
-						var dt = $(this.container).find("[data-droptarget]");
-						if (ph.size() > 0 && dt.size() > 0)
-							dt.remove();
-						else if (ph.size() == 0 && dt.size() == 0) {
-							if (opts.itemSelector == "td")
-								$(opts.placeHolderTemplate).attr("data-droptarget", true).appendTo(this.container);
-							else
-								//list.placeHolderItem.clone().removeAttr("data-placeholder") crashes in IE7 and jquery 1.5.1 (doesn't in jquery 1.4.2 or IE8)
-								$(this.container).append(list.placeHolderItem.removeAttr("data-placeholder").clone().attr("data-droptarget", true));
-							
-							list.placeHolderItem.attr("data-placeholder", true);
-						}
-					});
-				}
+                        //special case for first item
+                        if(rightHeight && i == 0){
+                            if(this.pos[i].left > x){
+                                return -1
+                            }
+                        }
+                        //normal items
+                        if(rightHeight && i < this.pos.length - 1){
+                            //between i and next item
+                            if((this.pos[i].right - tol < x && this.pos[i+1].left + tol > x) ||
+                                //right of rightmost i in row
+                               (this.pos[i].right - tol < x && this.pos[i].right > this.pos[i+1].left)){
+                                return i
+                            }
+                            //left of leftmost i in row
+                            if(this.pos[i].left + tol > x){
+                                return i-1
+                            }
+                        }
+                        //special case for last item
+                        if(rightHeight && i == this.pos.length - 1){
+                            if(this.pos[i].right - tol < x){
+                                return i
+                            } else {
+                                return i-1
+                            }
+                        }
+                    }
+                    return null;
+                }
 			};
 
 			newList.init();
@@ -361,6 +435,7 @@
 		dragSelectorExclude: "input, textarea",
 		dragEnd: function() { },
 		dragBetween: false,
+        context:null,
 		placeHolderTemplate: "",
 		scrollContainer: window,
 		scrollSpeed: 5
