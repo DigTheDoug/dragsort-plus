@@ -1,3 +1,11 @@
+<!-- // jQuery List DragSort-Plus v0.6.2 -->
+<!-- // https://github.com/DigTheDoug/dragsort -->
+
+<!-- // Based off jQuery List DragSort -->
+<!-- // jQuery List DragSort v0.5.1 -->
+<!-- // Website: http://dragsort.codeplex.com/ -->
+<!-- // License: http://dragsort.codeplex.com/license -->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7,10 +15,12 @@
 	<script type="text/javascript" src="jquery.dragsort-plus-0.6.0.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.css">
+
+	<link rel="stylesheet" type="text/css" href="dragsort-plus.css">
 	
 	<style type="text/css">
 		.thumbnails{
-			border: 1px solid #eee;
+			border: 1px solid #ccc;
 			border-radius: 4px;
 			position: relative;
 			padding-top: 20px;
@@ -29,37 +39,6 @@
 			text-align: center; 
 			border: dashed 1px gray; 
 		}
-		
-		.moveRightIcon,
-    	.moveLeftIcon,
-    	.dropIcon{
-    		display: none;
-		    position: absolute;
-		    top: 0px;
-		    width: 10px;
-		    height: 100%;
-		    font-size: 18px;
-		}
-
-		.moveRightIcon > div,
-		.moveLeftIcon > div,
-		.dropIcon > div{
-			position: relative;
-        	top: 40%;
-        }
-
-        .dropIcon {
-        	width: 100%;
-        	text-align: center;
-        }
-
-        .moveRightIcon{
-	      right: 0px;
-	    }
-
-	    .moveLeftIcon{
-	      left: 0px;
-	    }
 	</style>
 
 </head>
@@ -250,7 +229,8 @@
 		 	dragStart: dragStartHandler,
             dragEnd: dragEndHanlder,
             context: this,
-		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>" 
+		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>",
+		 	dragTolerance: 0		 	
 		 });
 		
 		function dragStartHandler(){

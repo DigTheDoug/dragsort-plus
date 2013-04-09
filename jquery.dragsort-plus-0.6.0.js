@@ -1,4 +1,4 @@
-// jQuery List DragSort-Plus v0.6.1
+// jQuery List DragSort-Plus v0.6.2
 // https://github.com/DigTheDoug/dragsort
 
 // Based off jQuery List DragSort
@@ -379,7 +379,7 @@
 				//returns the index of the list item the mouse is over
 				findPos: function(x, y) {
 					for (var i = 0; i < this.pos.length; i++) {
-                        var tol = 30; //tolerance
+                        var tol = opts.dragTolerance;
 						if (this.pos[i].left+tol < x && this.pos[i].right-tol > x && this.pos[i].top < y && this.pos[i].bottom > y)
 							return i;
 					}
@@ -389,7 +389,7 @@
 				//returns the index of the item to the right (after) when between items
                 findPosAfter: function(x, y) {
                     for (var i = 0; i < this.pos.length; i++) {
-                        var tol = 30; //tolerance
+                        var tol = opts.dragTolerance;
                         var rightHeight = this.pos[i].top < y && this.pos[i].bottom > y;
                         
                         //check if within parent container
@@ -442,10 +442,11 @@
 		dragSelectorExclude: "input, textarea",
 		dragEnd: function() { },
 		dragBetween: false,
-        context:null,
 		placeHolderTemplate: "",
 		scrollContainer: window,
-		scrollSpeed: 5
+		context: null,
+		scrollSpeed: 5,
+		dragTolerance: 30
 	};
 
 })(jQuery);
