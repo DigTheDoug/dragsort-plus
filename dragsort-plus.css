@@ -6,12 +6,9 @@
 /* Website: http://dragsort.codeplex.com/*/
 /* License: http://dragsort.codeplex.com/license*/
 
-
-
 .moveRightIcon,
 .moveLeftIcon,
 .dropIcon {
-	display: none;
     position: absolute;
     top: 0px;
     width: 10px;

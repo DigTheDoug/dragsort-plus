@@ -1,4 +1,4 @@
-<!-- // jQuery List DragSort-Plus v0.6.2 -->
+<!-- // jQuery List DragSort-Plus v0.6.3 -->
 <!-- // https://github.com/DigTheDoug/dragsort -->
 
 <!-- // Based off jQuery List DragSort -->
@@ -37,7 +37,14 @@
 		.placeHolder div { 
 			height: 50px;
 			text-align: center; 
-			border: dashed 1px gray; 
+			border: dashed 1px gray;
+		}
+		.moveRightIcon,
+		.moveLeftIcon{
+			font-size: 28px;
+		}
+		.dropIcon {
+		    font-size: 18px;
 		}
 	</style>
 
@@ -57,98 +64,62 @@
 		</div>
 		<div class="row">
 			<ul id="list1" class="thumbnails span7">
-				<li class="span2"><div class="item thumbnail">1</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">1</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">2</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">2</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">3</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">3</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">4</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">4</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">5</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">5</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">6</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">6</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">7</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">7</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">8</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">8</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">9</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">9</div>
 				</li>
 			</ul>
 			
 			<ul id="list2" class="thumbnails span7">
-				<li class="span2"><div class="item thumbnail">1</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">1</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">2</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">2</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">3</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">3</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">4</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">4</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">5</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">5</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">6</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">6</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">7</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">7</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">8</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">8</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">9</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">9</div>
 				</li>
 			</ul>
 		</div>
@@ -158,50 +129,67 @@
 		</div>
 		<div class="row">
 			<ul id="list3" class="thumbnails span12">
-				<li class="span2"><div class="item thumbnail">1</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">1</div>
 				</li>
-				<li class="span3"><div class="item thumbnail">2</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span3">
+					<div class="item thumbnail">2</div>
 				</li>
-				<li class="span1"><div class="item thumbnail">3</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span1">
+					<div class="item thumbnail">3</div>
 				</li>
-				<li class="span1"><div class="item thumbnail">4</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span1">
+					<div class="item thumbnail">4</div>
 				</li>
-				<li class="span4"><div class="item thumbnail">5</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span4">
+					<div class="item thumbnail">5</div>
 				</li>
-				<li class="span2"><div class="item thumbnail">6</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span2">
+					<div class="item thumbnail">6</div>
 				</li>
-				<li class="span5"><div class="item thumbnail">7</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span5">
+					<div class="item thumbnail">7</div>
 				</li>
-				<li class="span3"><div class="item thumbnail">8</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span3">
+					<div class="item thumbnail">8</div>
 				</li>
-				<li class="span1"><div class="item thumbnail">9</div>
-					<div class="dropIcon"><div>Drop Here</div></div>
-					<div class="moveRightIcon" ><div>&raquo</div></div>
-		    		<div class="moveLeftIcon" ><div>&laquo</div></div>
+				<li class="span1">
+					<div class="item thumbnail">9</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="row">
+			<h3>Different icons/templates</h3>
+		</div>
+		<div class="row">
+			<ul id="list4" class="thumbnails span7">
+				<li class="span2">
+					<div class="item thumbnail">1</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">2</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">3</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">4</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">5</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">6</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">7</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">8</div>
+				</li>
+				<li class="span2">
+					<div class="item thumbnail">9</div>
 				</li>
 			</ul>
 		</div>
@@ -232,6 +220,18 @@
 		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>",
 		 	dragTolerance: 0		 	
 		 });
+
+		$("#list4").dragsort({
+		 	dragSelector: "div", 
+		 	dragBetween: false, 
+		 	dragStart: dragStartHandler,
+            dragEnd: dragEndHanlder,
+            context: this,
+		 	placeHolderTemplate: "<li class='placeHolder'><div class='thumbnail'></div></li>",
+		 	dropIconText: "GO!",
+		 	moveRightIconText: "&#9654;",
+		 	moveLeftIconText: "&#9664;"
+		 });
 		
 		function dragStartHandler(){
 
@@ -240,6 +240,7 @@
 		function dragEndHanlder() {
 			
 		};
+
 	</script>
 
 </body>

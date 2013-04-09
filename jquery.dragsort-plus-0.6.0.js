@@ -1,4 +1,4 @@
-// jQuery List DragSort-Plus v0.6.2
+// jQuery List DragSort-Plus v0.6.3
 // https://github.com/DigTheDoug/dragsort
 
 // Based off jQuery List DragSort
@@ -19,6 +19,9 @@
 		var list = null, lastPos = null;
 
         var helpers = [];
+        var dropIcon = '<div class="dropIcon" style="display:none;"><div>'+opts.dropIconText+'</div></div>';
+        var moveRightIcon = '<div class="moveRightIcon" style="display:none;"><div>'+opts.moveRightIconText+'</div></div>';
+        var moveLeftIcon = '<div class="moveLeftIcon" style="display:none;"><div>'+opts.moveLeftIconText+'</div></div>';
 
 		this.each(function(i, cont) {
 
@@ -48,6 +51,8 @@
 					//listidx allows reference back to correct list variable instance
 					$(this.container).attr("data-listidx", i).mousedown(this.grabItem).bind("dragsort-uninit", this.uninit);
 					this.styleDragHandlers(true);
+
+					$(this.container).children().append(dropIcon, moveRightIcon, moveLeftIcon);
 				},
 
 				uninit: function() {
@@ -441,8 +446,12 @@
 		dragSelector: "",
 		dragSelectorExclude: "input, textarea",
 		dragEnd: function() { },
+		dragStart: function() { },
 		dragBetween: false,
 		placeHolderTemplate: "",
+		dropIconText: "Drop Here",
+		moveRightIconText: "&raquo",
+		moveLeftIconText: "&laquo",
 		scrollContainer: window,
 		context: null,
 		scrollSpeed: 5,
